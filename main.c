@@ -10,7 +10,6 @@ typedef struct _result
     int dist;
 } Result;
 
-
 int results_compar(const void *a, const void *b)
 {
     Result *ra, *rb;
@@ -122,15 +121,16 @@ int main(int argc, char **argv)
 
     /* Print longest path */
     Dijkstra *map = dijkstra_search(g, results[9].start, edges);
-    printf("Longest Path: \n");
+    printf("Longest Path from %d to %d: \n", results[9].start, results[9].end);
     size_t v = results[9].end;
-    while (v!=results[9].start) {
+    while (v != results[9].start)
+    {
         size_t lastV = v;
-        v=map[v].parent;
-        int distDiff = map[lastV].dist-map[v].dist;
-        printf("\t%d==%d==>%d\n",(int)v,distDiff,(int)lastV);
+        v = map[v].parent;
+        int distDiff = map[lastV].dist - map[v].dist;
+        printf("\t%d==%d==>%d\n", (int)v, distDiff, (int)lastV);
     }
-    printf("Running Time: %f\n",time);
+    printf("Running Time: %f\n", time);
 
     /* Free Mem */
     free(map);

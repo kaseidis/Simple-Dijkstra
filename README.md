@@ -4,14 +4,18 @@
 Shenghua Chen
 
 ## Comments
+### Infomation
 All source shortest path problem by applying Dijkstra. Return 10 longest path.
 
-Performance Test:
+### Performance Test Results
 - On graph 1
   -``Running Time: 0.113696``
 - On graph 2
   -``Running Time: 351.158186``
 
+Time Complexity: O(|E|*(|E|+|V|log|V|))
+
+### File List
 Here is file list:
 - ``main.c`` main function
 - ``Dijkstra.c`` Dijkstra algorithm implementation

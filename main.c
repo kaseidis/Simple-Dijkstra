@@ -121,7 +121,7 @@ int main(int argc, char **argv)
 
     /* Print longest path */
     Dijkstra *map = dijkstra_search(g, results[9].start, edges);
-    printf("Longest Path from %d to %d: \n", results[9].start, results[9].end);
+    printf("Longest Path (from %d to %d): \n", results[9].start, results[9].end);
     size_t v = results[9].end;
     while (v != results[9].start)
     {

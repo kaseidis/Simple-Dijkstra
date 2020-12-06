@@ -31,8 +31,7 @@ Here is file list:
 - ``Requirement.md`` Homework requirements.
 
 ## Instruction for compile
-``make main`` will generate a executable file for nBody.
-Run the executable file, it will run the n body.
+``make main`` will generate a executable file.
 
 The excecutable can accept follwing argument:
 ```

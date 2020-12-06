@@ -1,36 +1,44 @@
 # Homework 6
 
-Write a C program that solves the all source shortest path problem by applying Dijkstra n = |V| times –– that is, once for each vertex in the input graph G, as described in the recorded lectures and outlined in the code snipped below. An important detail not described in typical Dijkstra pseudocode is the implementation of the next-closest vertex search. To get full credit, and to ensure the algorithm runs in reasonable time for the large input file provided, the search must be done using a binary min-heap priority queue*. Rather than save all of the path data, output only the 10 longest paths in a file with format:
+## Author Name
+Shenghua Chen
 
-start vertex 1, end vertex 1, distance 1<br>
-start vertex 2, end vertex 2, distance 2<br>
-...<br>
-...<br>
-start vertex 10, end vertex 10, distance 10
+## Comments
+All source shortest path problem by applying Dijkstra. Return 10 longest path.
 
-In addition to devising and running your own correctness tests, carry out a performance anaysis on the two graphs provided. No credit will be given for extremely inefficient implementations (several hours is the expected execution time in serial for large graph). To speed up execution of the large graph, OpenMP is strongly recommended, but not required for credit.
+Performance Test:
+- On graph 1
+  -``Running Time: 0.113696``
+- On graph 2
+  -``Running Time: 351.158186``
 
-*An excellent reference for building a min-heap priority queue can be found here: https://bradfieldcs.com/algos/trees/priority-queues-with-binary-heaps/
+Here is file list:
+- ``main.c`` main function
+- ``Dijkstra.c`` Dijkstra algorithm implementation
+- ``Dijkstra.h`` Dijkstra algorithm interface
+- ``PriorityQueue.c`` Priority queue implementation based on min heap
+- ``PriorityQueue.h`` Priority queue interface
+- ``Node.h`` Data structure for node in the priority queue.
+- ``Graph.h`` Data structure for directed graph.
+- ``Graph.c`` Implementation for acesss function for graph.
+- ``timer.c`` provided file from class
+- ``timer.h`` provided file from class
+- ``Requirement.md`` Homework requirements.
 
-*Dijkstra Shortest Path Main Loop*
+## Instruction for compile
+``make main`` will generate a executable file for nBody.
+Run the executable file, it will run the n body.
+
+The excecutable can accept follwing argument:
 ```
-while (processed[v] == false) {
-    processed[v] = true;
-    p = g->edges[v];
-    while ( p != NULL) {
-      w = p->y;
-      weight = p->weight;
-      if (distance[w] > (distance[v] + weight)) {
-        distance[w] = (distance[v] + weight);
-      }
-      p = p->next;
-    }
-    /* find new min: naive approach, replace with min-heap priority queue */
-    for (i=1,v=1,dist=INT_MAX; i<=g->nvertices; i++) {
-      if ((processed[i] == false) && (dist > distance[i])) {
-        dist = distance[i];
-        v = i;
-      }
-    }
-  }
+main <Input File Path> <Output File Path>
 ```
+- `Input File Path` The input file of vertices data
+- `Output File Path` The output file of longest 10 path
+- Example:
+  - ``main graph1.txt``
+
+Running the program will display running time on screen at the end of execution.
+
+## Reference
+- University of Chicago, 2020 Autumn MPCS 51100 Advanced Programming class note.

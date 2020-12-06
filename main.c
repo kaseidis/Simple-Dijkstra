@@ -120,6 +120,7 @@ int main(int argc, char **argv)
 
     fclose(output);
 
+    /* Print longest path */
     Dijkstra *map = dijkstra_search(g, results[9].start, edges);
     printf("Longest Path: \n");
     size_t v = results[9].end;
@@ -127,11 +128,9 @@ int main(int argc, char **argv)
         size_t lastV = v;
         v=map[v].parent;
         int distDiff = map[lastV].dist-map[v].dist;
-        printf("\t%d<==%d==%d\n",(int)lastV,distDiff,(int)v);
+        printf("\t%d==%d==>%d\n",(int)v,distDiff,(int)lastV);
     }
     printf("Running Time: %f\n",time);
-
-    
 
     /* Free Mem */
     free(map);

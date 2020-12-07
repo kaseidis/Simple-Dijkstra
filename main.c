@@ -24,6 +24,7 @@ int results_compar(const void *a, const void *b)
     return ra->dist - rb->dist;
 }
 
+
 int main(int argc, char **argv)
 {
     /* Read Argument Open File */
@@ -57,7 +58,7 @@ int main(int argc, char **argv)
     }
 
     Graph g = init_graph(nodes);
-    for (int i = 0; i < nodes; ++i)
+    for (int i = 0; i < edges; ++i)
     {
         int from, to, weight;
         fscanf(file, "%d %d %d", &from, &to, &weight);
@@ -119,11 +120,17 @@ int main(int argc, char **argv)
 
     fclose(output);
 
+#define START results[9].start
+#define END results[9].end
+
+//#define START 644
+//#define END 6121
+
     /* Print longest path */
-    Dijkstra *map = dijkstra_search(g, results[9].start, edges);
-    printf("Longest Path (from %d to %d): \n", results[9].start, results[9].end);
-    size_t v = results[9].end;
-    while (v != results[9].start)
+    Dijkstra *map = dijkstra_search(g, START, edges);
+    printf("Longest Path (from %d to %d): \n", START, END);
+    size_t v = END;
+    while (v != START)
     {
         size_t lastV = v;
         v = map[v].parent;

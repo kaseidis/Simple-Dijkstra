@@ -45,17 +45,15 @@ Dijkstra *dijkstra_search(Graph g, size_t start, size_t n_edge)
             n.node = e->to;
             n.dist = map[v].dist + (e->weight);
 
-            // If node not processed, update node
-            if (!processed[n.node])
+            if (map[n.node].dist > n.dist || map[n.node].dist == -1)
             {
-                push_element(&q, n);
-                // Update distance
-                if (n.dist < map[n.node].dist || map[n.node].dist == -1) {
-                    map[n.node].dist = n.dist;
-                    map[n.node].parent = v;
-                }
+                map[n.node].dist = n.dist;
+                map[n.node].parent = v;
+                if (!processed[n.node])
+                    push_element(&q, n);
             }
-
+            if (!processed[n.node])
+                push_element(&q, n);
             // Get next edge
             e = get_next(e);
         }

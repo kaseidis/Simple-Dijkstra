@@ -35,10 +35,11 @@ Here is file list:
 
 The excecutable can accept follwing argument:
 ```
-main <Input File Path> <Output File Path>
+main <Input File Path> <Output File Path> <Thread Count>
 ```
 - `Input File Path` The input file of vertices data
 - `Output File Path` The output file of longest 10 path
+- `Thread Count` The thread count of the code.
 - Example:
   - ``main graph1.txt``
 

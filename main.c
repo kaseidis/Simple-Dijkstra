@@ -10,6 +10,7 @@ typedef struct _result
     int dist;
 } Result;
 
+// Comparer for results.
 int results_compar(const void *a, const void *b)
 {
     Result *ra, *rb;
@@ -24,19 +25,26 @@ int results_compar(const void *a, const void *b)
     return ra->dist - rb->dist;
 }
 
-typedef struct _results {
+// Code for reduction
+typedef struct _results
+{
     Result results[10];
 } Results;
 
-Results resultsMax(Results a, Results b) {
+Results resultsMax(Results a, Results b)
+{
     Results newR;
     int ia = 9;
     int ib = 9;
-    for (int i=9; i>=0; --i) {
-        if (ia>=0 && results_compar(&(a.results[ia]),&(b.results[ib]))>0) {
+    for (int i = 9; i >= 0; --i)
+    {
+        if (ia >= 0 && results_compar(&(a.results[ia]), &(b.results[ib])) > 0)
+        {
             newR.results[i] = a.results[ia];
             --ia;
-        } else if (ib>=0) {
+        }
+        else if (ib >= 0)
+        {
             newR.results[i] = b.results[ib];
             --ib;
         }
@@ -57,7 +65,7 @@ int main(int argc, char **argv)
             printf("Error Opening File\n");
             return -2;
         }
-        sscanf(argv[3],"%d",&thread);
+        sscanf(argv[3], "%d", &thread);
     }
     else
     {
@@ -96,36 +104,31 @@ int main(int argc, char **argv)
         rs.results[i].dist = 0;
     }
 
-#pragma omp declare reduction(                             \
-                              myMax :                     \
-                              Results :   \
-                              omp_out=resultsMax(omp_out, omp_in)      \
-                             )
+#pragma omp declare reduction(myMax:Results   \
+                             : omp_out= \
+                             resultsMax(omp_out, omp_in))
     StartTimer();
 
     /* Search */
-    int finished = 0;
-#pragma omp parallel for schedule(dynamic) num_threads(thread) reduction(myMax:rs)
+#pragma omp parallel for schedule(dynamic) num_threads(thread) \
+                        reduction(myMax: rs)
     for (int i = 0; i < nodes; ++i)
     {
         Dijkstra *map = dijkstra_search(g, i, edges);
         Result r;
         r.start = i;
-#pragma omp critical
+        for (r.end = 0; r.end < nodes; ++(r.end))
         {
-            for (r.end = 0; r.end < nodes; ++(r.end))
+            if (map[r.end].dist > rs.results[0].dist)
             {
-                if (map[r.end].dist > rs.results[0].dist)
-                {
-                    r.dist = map[r.end].dist;
-                    rs.results[0] = r;
-                    qsort(rs.results, 10, sizeof(Result), &results_compar);
-                }
+                r.dist = map[r.end].dist;
+                rs.results[0] = r;
+                qsort(rs.results, 10, sizeof(Result), &results_compar);
             }
-            ++finished;
         }
+        // Since is dynamic scheduling, the i could be a estimate
         if (i % 1000 == 0)
-            printf("%d/%d\n", finished, nodes);
+            printf("%d/%d\n", i, nodes);
         free(map);
     }
     printf("%d/%d\n", nodes, nodes);
@@ -149,8 +152,8 @@ int main(int argc, char **argv)
 #define START rs.results[9].start
 #define END rs.results[9].end
 
-// #define START 644
-// #define END 6172
+    // #define START 644
+    // #define END 6172
 
     /* Print longest path */
     Dijkstra *map = dijkstra_search(g, START, edges);

@@ -24,6 +24,25 @@ int results_compar(const void *a, const void *b)
     return ra->dist - rb->dist;
 }
 
+typedef struct _results {
+    Result results[10];
+} Results;
+
+Results resultsMax(Results a, Results b) {
+    Results newR;
+    int ia = 9;
+    int ib = 9;
+    for (int i=9; i>=0; --i) {
+        if (ia>=0 && results_compar(&(a.results[ia]),&(b.results[ib]))>0) {
+            newR.results[i] = a.results[ia];
+            --ia;
+        } else if (ib>=0) {
+            newR.results[i] = b.results[ib];
+            --ib;
+        }
+    }
+    return newR;
+}
 
 int main(int argc, char **argv)
 {
@@ -69,19 +88,24 @@ int main(int argc, char **argv)
     fclose(file);
 
     /* Max 10 Results */
-    Result results[10];
+    Results rs;
     for (int i = 0; i < 10; ++i)
     {
-        results[i].start = 0;
-        results[i].end = 0;
-        results[i].dist = 0;
+        rs.results[i].start = 0;
+        rs.results[i].end = 0;
+        rs.results[i].dist = 0;
     }
 
+#pragma omp declare reduction(                             \
+                              myMax :                     \
+                              Results :   \
+                              omp_out=resultsMax(omp_out, omp_in)      \
+                             )
     StartTimer();
 
     /* Search */
     int finished = 0;
-#pragma omp parallel for schedule(dynamic) num_threads(thread)
+#pragma omp parallel for schedule(dynamic) num_threads(thread) reduction(myMax:rs)
     for (int i = 0; i < nodes; ++i)
     {
         Dijkstra *map = dijkstra_search(g, i, edges);
@@ -91,11 +115,11 @@ int main(int argc, char **argv)
         {
             for (r.end = 0; r.end < nodes; ++(r.end))
             {
-                if (map[r.end].dist > results[0].dist)
+                if (map[r.end].dist > rs.results[0].dist)
                 {
                     r.dist = map[r.end].dist;
-                    results[0] = r;
-                    qsort(results, 10, sizeof(Result), &results_compar);
+                    rs.results[0] = r;
+                    qsort(rs.results, 10, sizeof(Result), &results_compar);
                 }
             }
             ++finished;
@@ -111,19 +135,19 @@ int main(int argc, char **argv)
     FILE *output = fopen(argv[2], "w");
     for (int i = 0; i < 10; ++i)
     {
-        if (results[i].start != results[i].end)
+        if (rs.results[i].start != rs.results[i].end)
         {
             fprintf(output, "start vertex %d, end vertex %d, distance %d\n",
-                    results[i].start,
-                    results[i].end,
-                    results[i].dist);
+                    rs.results[i].start,
+                    rs.results[i].end,
+                    rs.results[i].dist);
         }
     }
 
     fclose(output);
 
-#define START results[9].start
-#define END results[9].end
+#define START rs.results[9].start
+#define END rs.results[9].end
 
 // #define START 644
 // #define END 6172

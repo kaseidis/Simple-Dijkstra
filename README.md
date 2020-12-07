@@ -41,7 +41,7 @@ main <Input File Path> <Output File Path> <Thread Count>
 - `Output File Path` The output file of longest 10 path
 - `Thread Count` The thread count of the code.
 - Example:
-  - ``main graph1.txt``
+  - ``main graph1.txt result.out 12``
 
 Running the program will display running time on screen at the end of execution.
 

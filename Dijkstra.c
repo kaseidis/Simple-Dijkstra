@@ -33,6 +33,8 @@ Dijkstra *dijkstra_search(Graph g, size_t start, size_t n_edge)
         while (!is_empty(q) && processed[n.node])
             n = pop_element(&q);
         v = n.node;
+        if (processed[v])
+            break;
 
         // Set current node as processed node
         processed[v] = 1;

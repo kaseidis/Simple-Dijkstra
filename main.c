@@ -29,7 +29,8 @@ int main(int argc, char **argv)
 {
     /* Read Argument Open File */
     FILE *file;
-    if (argc > 2)
+    int thread;
+    if (argc > 3)
     {
         file = fopen(argv[1], "r");
         if (file == NULL)
@@ -37,11 +38,12 @@ int main(int argc, char **argv)
             printf("Error Opening File\n");
             return -2;
         }
+        sscanf(argv[3],"%d",&thread);
     }
     else
     {
         printf("Wrong numger of arguments\n");
-        printf("\tUsage: %s <Input File Path> <Output File Path>\n", argv[0]);
+        printf("\tUsage: %s <Input File Path> <Output File Path> <num_threads>\n", argv[0]);
         return -1;
     }
 
@@ -79,7 +81,7 @@ int main(int argc, char **argv)
 
     /* Search */
     int finished = 0;
-#pragma omp parallel for schedule(dynamic)
+#pragma omp parallel for schedule(dynamic) num_threads(thread)
     for (int i = 0; i < nodes; ++i)
     {
         Dijkstra *map = dijkstra_search(g, i, edges);
@@ -123,8 +125,8 @@ int main(int argc, char **argv)
 #define START results[9].start
 #define END results[9].end
 
-//#define START 644
-//#define END 6121
+// #define START 644
+// #define END 6172
 
     /* Print longest path */
     Dijkstra *map = dijkstra_search(g, START, edges);

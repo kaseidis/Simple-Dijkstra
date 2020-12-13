@@ -54,8 +54,7 @@ Dijkstra *dijkstra_search(Graph g, size_t start, size_t n_edge)
                 if (!processed[n.node])
                     push_element(&q, n);
             }
-            if (!processed[n.node])
-                push_element(&q, n);
+            
             // Get next edge
             e = get_next(e);
         }

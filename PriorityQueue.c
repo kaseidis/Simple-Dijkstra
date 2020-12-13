@@ -63,30 +63,32 @@ void ShiftDown(PriorityQueue q, int k)
     }
 }
 
-
-void push_element(PriorityQueue* q, Node node)
+void push_element(PriorityQueue *q, Node node)
 {
     // The space is used up
-    if (q->length>=q->max)
+    if (q->length >= q->max)
         return;
     // Add element to heap
-    q->queue[q->length]=node;
+    q->queue[q->length] = node;
     q->length++;
-    ShiftUp(*q,q->length-1);
+    ShiftUp(*q, q->length - 1);
 }
 
-Node pop_element(PriorityQueue* q) {
+Node pop_element(PriorityQueue *q)
+{
     // Tring to Pop empty queue
-    if (q->length==0) {
+    if (q->length == 0)
+    {
         printf("Tring to Pop empty queue\n");
         return q->queue[0];
     }
     // Remove first element to heap, return it
     Node min = q->queue[0];
-    q->length--;
-    if (q->length>0) {
-        q->queue[0] = q->queue[q->length-1];
-        ShiftDown(*q,0);
+    if (q->length > 0)
+    {
+        q->queue[0] = q->queue[q->length - 1];
+        q->length--;
+        ShiftDown(*q, 0);
     }
     return min;
 }

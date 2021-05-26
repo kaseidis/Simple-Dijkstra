@@ -1,11 +1,13 @@
-# Homework 6
+# Simple Dijkstra
 
 ## Author Name
 Shenghua Chen
 
 ## Comments
 ### Infomation
-All source shortest path problem by applying Dijkstra. Return 10 longest path.
+Practice project for Dijkstra Algrithm.
+Calculate all source shortest path problem by applying Dijkstra. Return 10 longest path.
+Detailed problem explanation: [Project Requirement](Requirement.md)
 
 ### Performance Test Results
 Time Complexity: O(|V|*(|E|+|V|log|V|))
@@ -17,7 +19,6 @@ Time Complexity: O(|V|*(|E|+|V|log|V|))
 
 
 ### File List
-Here is file list:
 - ``main.c`` main function
 - ``Dijkstra.c`` Dijkstra algorithm implementation
 - ``Dijkstra.h`` Dijkstra algorithm interface
@@ -26,9 +27,9 @@ Here is file list:
 - ``Node.h`` Data structure for node in the priority queue.
 - ``Graph.h`` Data structure for directed graph.
 - ``Graph.c`` Implementation for acesss function for graph.
-- ``timer.c`` provided file from class
-- ``timer.h`` provided file from class
-- ``Requirement.md`` Homework requirements.
+- ``timer.c`` simple timer code.
+- ``timer.h`` simple timer code.
+- ``Requirement.md`` Project requirements.
 
 ## Instruction for compile
 ``make main`` will generate a executable file.

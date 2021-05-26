@@ -17,7 +17,7 @@ void free_queue(PriorityQueue queue)
     free(queue.queue);
 }
 
-// Helper function to get parent left child and right child
+// Helper function (Marco) to get parent left child and right child
 #define leftChild(index) ((index)*2 + 1)
 
 #define rightChild(index) ((index)*2 + 2)
@@ -84,10 +84,10 @@ Node pop_element(PriorityQueue *q)
     }
     // Remove first element to heap, return it
     Node min = q->queue[0];
+    q->length--;
     if (q->length > 0)
     {
-        q->queue[0] = q->queue[q->length - 1];
-        q->length--;
+        q->queue[0] = q->queue[q->length];
         ShiftDown(*q, 0);
     }
     return min;

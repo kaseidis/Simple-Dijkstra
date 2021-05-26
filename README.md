@@ -1,8 +1,5 @@
 # Simple Dijkstra
 
-## Author Name
-Shenghua Chen
-
 ## Comments
 ### Infomation
 Practice project for Dijkstra Algrithm.
